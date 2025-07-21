@@ -1,0 +1,34 @@
+[
+    {
+        "id" : 1,
+        "username": "Jane",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "password": "SecurePass456!",
+        "confirmPassword": "SecurePass456!"
+    },
+    {
+        "id" : 2,
+        "username": "Alice",
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "password": "MyPass789!",
+        "confirmPassword": "MyPass789!"
+    },
+    {
+        "id" : 3,
+        "username": "Bob",
+        "firstName": "Bob",
+        "lastName": "Brown",
+        "password": "Pass1234!",
+        "confirmPassword": "Pass1234!"
+    },
+    {
+        "id" : 4,
+        "username": "Charlie",
+        "firstName": "Charlie",
+        "lastName": "Davis",
+        "password": "CharliePass!",
+        "confirmPassword": "CharliePass!"
+    }
+]
