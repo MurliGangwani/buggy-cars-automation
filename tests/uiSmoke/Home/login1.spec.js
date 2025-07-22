@@ -20,8 +20,5 @@ test.describe('Home Page Tests', () => {
         await homePage.logout();
     })
 
-    // test('Logout', async () => {
-    //     await homePage.logout();
-    // })
 
 })
