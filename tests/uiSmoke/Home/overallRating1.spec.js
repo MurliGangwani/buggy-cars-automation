@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
 import OverallRatingPage from '../../../pages/overallRatingPage.js';
+const rawData = require('../../../test-data/userData.json');
+const testData = JSON.parse(JSON.stringify(rawData));
+
 
 test.describe('Overall Rating Page Tests', () => {
     let overallRatingPage;
 
     test.beforeEach(async ({ page }) => {
         overallRatingPage = new OverallRatingPage(page);
-        await page.goto(overallRatingPage.url, { waitUntil: 'domcontentloaded' });
+        await page.goto(overallRatingPage.url, { waitUntil: 'load' });
+        await page.waitForSelector(overallRatingPage.ratingGrid, { state: 'attached' });
     });
 
     test('Verify Overall Rating Page URL', async () => {
@@ -57,6 +61,42 @@ test.describe('Overall Rating Page Tests', () => {
         await expect(async () => {
             await overallRatingPage.moveToNextPage();
         }).rejects.toThrow("Already on the last page, cannot go to next page");
+    });
+
+    test('Comment on car with user logged in', async () => {
+        if(await overallRatingPage.verifyLoggedIn() === false) {
+            await overallRatingPage.login(testData[0].username, testData[0].password);
+        }
+    
+        const carMake = 'Alfa Romeo';
+        const carModel = '4c Spider';
+        const comment = 'Great Car from Playwright';
+        
+        await overallRatingPage.commentOnCar(carMake, carModel, comment);
+    });
+
+    test('Comment on car with user not logged in', async () => {
+        const carMake = 'Lancia';
+        const carModel = 'Rally 037';
+        const comment = 'Great Car from Playwright';
+        
+        await expect( async () => { 
+            await overallRatingPage.commentOnCar(carMake, carModel, comment);
+        }).rejects.toThrow("User is not logged in, cannot comment on car");
+    });
+
+    test('Get all car for make', async () => {
+        const make = 'Alfa Romeo';
+        const cars = await overallRatingPage.getAllCarForMake(make);
+        console.log(`Cars for make ${make}:`, cars);
+        expect(cars.length).toBeGreaterThan(0);
+    });
+
+    test('Get all comments for car', async () => {
+        const carModel = 'Veyron';
+        const comments = await overallRatingPage.getAllCommentsForCar(carModel);
+        console.log(`Comments for ${carModel}:`, comments);
+        expect(comments.length).toBeGreaterThan(0);
     });
 
 });
