@@ -83,6 +83,17 @@ class HomePage {
         const firstCard = await this.page.locator('div.container').nth(1);
         await expect(firstCard).toContainText('BuggyCarsRating');
     }
+
+    async verifyLoggedIn() {
+        if (await this.page.locator(this.userNameDisplay).isVisible()) {
+            const text = await this.page.locator(this.userNameDisplay).textContent();
+            const name = text.split(", ")[1];
+            console.log(`User ${name} is logged in`);
+            return true;
+        }
+        console.error("User is not logged in");
+        return false;
+    }
 }
 
 module.exports = HomePage;
